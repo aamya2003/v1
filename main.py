@@ -1,44 +1,35 @@
-import telebot
 from flask import Flask, request
+import telebot
 
-# Set up Flask app
 app = Flask(__name__)
 
-# Define your Telegram bot tokens
-token = '6336490086:AAEpQooiX8qpOQ-DY7ohRGSqcJ05KwwG2f4'
+# Replace 'YOUR_TELEGRAM_BOT_TOKEN' with your actual bot token
+bot_token = '6336490086:AAEpQooiX8qpOQ-DY7ohRGSqcJ05KwwG2f4'
+bot = telebot.TeleBot(bot_token)
 
-# Create instances of Telebot for each bot
-bot1 = telebot.TeleBot(token)
+@app.route('/')
+def index():
+    return "Hello, this is your Telegram bot!"
 
-
-
-
-@app.route('/', methods=['GET'])
-def bot1_webhook():
-    return 'OK'
-
-# Define a route for receiving webhook updates from Telegram
-@app.route('/bot_webhook', methods=['POST'])
-def bot_webhook():
-    bot1.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode('utf-8'))])
-
-    return 'OK'
+# This is the endpoint where Telegram will send updates
+@app.route('/telegram-webhook', methods=['POST'])
+def webhook():
+    # Get the data from Telegram's POST request
+    json_string = request.get_data().decode('utf-8')
+    update = telebot.types.Update.de_json(json_string)
+    bot.process_new_updates([update])
+    return ''
 
 
+webhook_url = 'https://my-flask-heroku-535f0de7db25.herokuapp.com' + '/telegram-webhook'
 
-
-
-# Handle '/start' command for both bots
-@bot1.message_handler(commands=['start'])
-def bot1_start(message):
-    bot1.send_message(message.chat.id, "Hello! I am Bot 1. Let's do some addition.")
+# Set the webhook
+bot.remove_webhook()
+bot.set_webhook(url=webhook_url)
 
 
 
-bot1.remove_webhook()
-bot1.set_webhook("https://my-flask-heroku-535f0de7db25.herokuapp.com/bot_webhook")
 
-
-# Run the Flask app
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    # Start Flask app
+    app.run(debug=True)
