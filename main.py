@@ -30,7 +30,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://my-flask-heroku-535f0de7db25.herokuapp.com/' + TOKEN)
+    bot.set_webhook(url=request.base_url + TOKEN)
     return "!", 200
 
 
