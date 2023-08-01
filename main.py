@@ -19,7 +19,7 @@ def echo_message(message):
     bot.reply_to(message, message.text)
 
 
-@server.route('/' + TOKEN, methods=['POST'])
+@server.route('/ahmed', methods=['POST'])
 def getMessage():
     json_string = request.get_data().decode('utf-8')
     update = telebot.types.Update.de_json(json_string)
@@ -30,7 +30,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url=request.base_url + TOKEN)
+    bot.set_webhook(url=request.base_url + "ahmed")
     return "!", 200
 
 
