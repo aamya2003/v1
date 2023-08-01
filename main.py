@@ -32,11 +32,11 @@ def getMessage():
 
 
 
-@app.route("/set")
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url=request.base_url + "ahmed")
-    return "!", 200
+# @app.route("/set")
+# def webhook():
+bot.remove_webhook()
+bot.set_webhook("https://my-flask-heroku-535f0de7db25.herokuapp.com/" + "ahmed")
+    # return "!", 200
 
 
 if __name__ == "__main__":
