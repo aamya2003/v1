@@ -6,7 +6,7 @@ import telebot
 
 TOKEN = '6336490086:AAEpQooiX8qpOQ-DY7ohRGSqcJ05KwwG2f4'
 bot = telebot.TeleBot(TOKEN)
-server = Flask(__name__)
+app = Flask(__name__)
 
 
 @bot.message_handler(commands=['start'])
@@ -18,11 +18,11 @@ def start(message):
 def echo_message(message):
     bot.reply_to(message, message.text)
 
-@server.route("/")
+@app.route("/")
 def hello():
     return request.base_url
 
-@server.route('/ahmed', methods=['POST'])
+@app.route('/ahmed', methods=['POST'])
 def getMessage():
     json_string = request.get_data().decode('utf-8')
     update = telebot.types.Update.de_json(json_string)
@@ -32,7 +32,7 @@ def getMessage():
 
 
 
-@server.route("/set")
+@app.route("/set")
 def webhook():
     bot.remove_webhook()
     bot.set_webhook(url=request.base_url + "ahmed")
@@ -40,4 +40,4 @@ def webhook():
 
 
 if __name__ == "__main__":
-    server.run(host="0.0.0.0", port=8080)
+  app.run(host="0.0.0.0", port=8080)
