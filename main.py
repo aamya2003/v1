@@ -1,43 +1,44 @@
-import os
-
+import telebot
 from flask import Flask, request
 
-import telebot
-
-TOKEN = '6336490086:AAEpQooiX8qpOQ-DY7ohRGSqcJ05KwwG2f4'
-bot = telebot.TeleBot(TOKEN)
+# Set up Flask app
 app = Flask(__name__)
 
+# Define your Telegram bot tokens
+token = '6336490086:AAEpQooiX8qpOQ-DY7ohRGSqcJ05KwwG2f4'
 
-@bot.message_handler(commands=['start'])
-def start(message):
-    bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
-
-
-@bot.message_handler(func=lambda message: True, content_types=['text'])
-def echo_message(message):
-    bot.reply_to(message, message.text)
-
-@app.route("/")
-def hello():
-    return request.base_url
-
-@app.route('/ahmed', methods=['POST'])
-def getMessage():
-    json_string = request.get_data().decode('utf-8')
-    update = telebot.types.Update.de_json(json_string)
-    bot.process_new_updates([update])
-    return "!", 200
+# Create instances of Telebot for each bot
+bot1 = telebot.TeleBot(token)
 
 
 
 
-# @app.route("/set")
-# def webhook():
-bot.remove_webhook()
-bot.set_webhook("https://my-flask-heroku-535f0de7db25.herokuapp.com/" + "ahmed")
-    # return "!", 200
+@app.route('/', methods=['GET'])
+def bot1_webhook():
+    return 'OK'
+
+# Define a route for receiving webhook updates from Telegram
+@app.route('/bot_webhook', methods=['POST'])
+def bot_webhook():
+    bot1.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode('utf-8'))])
+
+    return 'OK'
 
 
-if __name__ == "__main__":
-  app.run(host="0.0.0.0", port=8080)
+
+
+
+# Handle '/start' command for both bots
+@bot1.message_handler(commands=['start'])
+def bot1_start(message):
+    bot1.send_message(message.chat.id, "Hello! I am Bot 1. Let's do some addition.")
+
+
+
+bot1.remove_webhook()
+bot1.set_webhook("https://my-flask-heroku-535f0de7db25.herokuapp.com/bot_webhook")
+
+
+# Run the Flask app
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)
