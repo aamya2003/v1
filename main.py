@@ -1,44 +1,38 @@
-from flask import Flask
-from threading import Thread
-from flask import request
-app = Flask(__name__)
+import os
 
-
-link = ""
-@app.route('/')
-def home():
-  global link
-  link = request.base_url
-
-  return request.base_url
-
-def run():
-  app.run(host='0.0.0.0', port=8080)
-
-
-def keep_alive():
-  t = Thread(target=run)
-  t.start()
-
-
+from flask import Flask, request
 
 import telebot
 
-bot = telebot.TeleBot("6336490086:AAEpQooiX8qpOQ-DY7ohRGSqcJ05KwwG2f4")
-
-@bot.message_handler()
-def Myfunc(message):
-    bot.send_message(message.chat.id, "Hi, What's happend?")
-
-@app.route('/bot_webhook', methods=['POST'])
-def bot_webhook():
-    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode('utf-8'))])
-
-    return 'OK'
+TOKEN = '6336490086:AAEpQooiX8qpOQ-DY7ohRGSqcJ05KwwG2f4'
+bot = telebot.TeleBot(TOKEN)
+server = Flask(__name__)
 
 
-bot.remove_webhook()
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
 
-bot.set_webhook(f"{link}bot_webhook")
 
-keep_alive()
+@bot.message_handler(func=lambda message: True, content_types=['text'])
+def echo_message(message):
+    bot.reply_to(message, message.text)
+
+
+@server.route('/' + TOKEN, methods=['POST'])
+def getMessage():
+    json_string = request.get_data().decode('utf-8')
+    update = telebot.types.Update.de_json(json_string)
+    bot.process_new_updates([update])
+    return "!", 200
+
+
+@server.route("/")
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url='https://my-flask-heroku-535f0de7db25.herokuapp.com/' + TOKEN)
+    return "!", 200
+
+
+if __name__ == "__main__":
+    server.run(host="0.0.0.0", port=8080)
