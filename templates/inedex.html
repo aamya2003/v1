@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>أحـــمـــد أســـعـــد ¹²ﾉ|🤴🏻 أبـــو ࢪوان</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="lis-it-small">
-                    <img src="list-img.png" alt="None">
+                    <img src="{{ url_for('static', filename= 'imgs/list-img.png') }}" alt="None">
                 </div>
 
             </header>
@@ -96,7 +96,7 @@
 
 
 
-
+            <img src="../static/imgs/" alt="">
         </section>
 
         <footer class="main-footer c">
@@ -107,9 +107,9 @@
                     nemo!
                 </p>
                 <div class="cont">
-                    <div class="sq1"><img src="telegram.png" alt=""></div>
-                    <div class="sq2"><img src="instagram.png" alt=""></div>
-                    <div class="sq3"><img src="youtube.png" alt=""></div>
+                    <div class="sq1"><img src="{{ url_for('static', filename= 'imgs/telegram.png') }}" alt=""></div>
+                    <div class="sq2"><img src="{{ url_for('static', filename= 'imgs/instagram.png') }}" alt=""></div>
+                    <div class="sq3"><img src="{{ url_for('static', filename= 'imgs/youtube.png') }}" alt=""></div>
                 </div>
 
             </div>
@@ -131,9 +131,9 @@
             <div class="right-foot">
                 <b>Contact</b>
                 <ul>
-                    <li><img src="loc.png" alt=""><span>location</span></li>
-                    <li><img src="mail.png" alt=""><span>Mail</span></li>
-                    <li><img src="call.png" alt=""><span>Phone</span></li>
+                    <li><img src="{{ url_for('static', filename= 'imgs/loc.png') }}" alt=""><span>location</span></li>
+                    <li><img src="{{ url_for('static', filename= 'imgs/mail.png') }}" alt=""><span>Mail</span></li>
+                    <li><img src="{{ url_for('static', filename= 'imgs/call.png') }}" alt=""><span>Phone</span></li>
                 </ul>
             </div>
             <div class="line-foot">
@@ -149,7 +149,7 @@
 
 
 
-    <script src="main.js"></script>
+    <script src="{{ url_for('static', filename= 'js/main.js') }}"></script>
 </body>
 
 </html>

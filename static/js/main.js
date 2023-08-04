@@ -7,7 +7,7 @@ rightNavImg.addEventListener('click', () => {
 
         asideBa.style.opacity = "100"
         asideBa.style.width = "25%"
-        rightNavImg.src = "close-list.png"
+        rightNavImg.src = "../static/imgs/close-list.png"
 
         console.log(asideBa.style.width)
     }
@@ -15,7 +15,7 @@ rightNavImg.addEventListener('click', () => {
 
         asideBa.style.width = ""
         asideBa.style.opacity = "0"
-        rightNavImg.src = "list-img.png"
+        rightNavImg.src = "../static/imgs/list-img.png"
         console.log(asideBa.style.width)
     }
 });
@@ -27,7 +27,7 @@ document.addEventListener("click", function (event) {
     if (!isClickInsideBA & !isClickInsideImg) {
         asideBa.style.width = ""
         asideBa.style.opacity = "0"
-        rightNavImg.src = "list-img.png"
+        rightNavImg.src = "../static/imgs/list-img.png"
     }
 
     // if (asideBa.style.width == "25%") {
