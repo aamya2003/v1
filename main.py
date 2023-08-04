@@ -11,9 +11,14 @@ bot = telebot.TeleBot(bot_token)
 def index():
     return "Hello, this is your Telegram bot!"
 
+
+print(request.base_url)
+
+
 # This is the endpoint where Telegram will send updates
 @app.route('/telegram-webhook', methods=['POST'])
 def webhook():
+    Name = "AHmed"
     # Get the data from Telegram's POST request
     json_string = request.get_data().decode('utf-8')
     update = telebot.types.Update.de_json(json_string)
@@ -21,11 +26,11 @@ def webhook():
     return ''
 
 
-webhook_url = 'https://my-flask-heroku-535f0de7db25.herokuapp.com' + '/telegram-webhook'
+# webhook_url = 'https://my-flask-heroku-535f0de7db25.herokuapp.com' + '/telegram-webhook'
 
-# Set the webhook
-bot.remove_webhook()
-bot.set_webhook(url=webhook_url)
+# # Set the webhook
+# bot.remove_webhook()
+# bot.set_webhook(url=webhook_url)
 
 
 
