@@ -2,7 +2,7 @@ import telebot
 
 
 
-bot = telebot.TeleBot("6523294892:AAFp846TjoxfeAh50moRj4mEPV4whjNvgv4")
+bot = telebot.TeleBot("6336490086:AAEpQooiX8qpOQ-DY7ohRGSqcJ05KwwG2f4")
 bot.remove_webhook()
 
 @bot.message_handler()
